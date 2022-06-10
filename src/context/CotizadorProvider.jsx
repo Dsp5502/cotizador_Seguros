@@ -15,7 +15,9 @@ const CotizadorProvider = ({ children }) => {
     plan: '',
   });
   const [error, setError] = useState('');
-  const [resultado, setResultado] = useState();
+  const [resultado, setResultado] = useState(0);
+  const [cargando, setCargando] = useState(false);
+
   const handleChangeDatos = (e) => {
     setDatos({
       ...datos,
@@ -30,7 +32,12 @@ const CotizadorProvider = ({ children }) => {
     resultado *= calcularMarca(datos.marca);
     resultado *= calcularPlan(datos.plan);
     resultado = formatearResultado(resultado);
-    setResultado(resultado);
+    setCargando(true);
+    setTimeout(() => {
+      setResultado(resultado);
+      setCargando(false);
+    }, 3000);
+
     return resultado;
   };
   return (
@@ -42,6 +49,7 @@ const CotizadorProvider = ({ children }) => {
         setError,
         cotizarSeguros,
         resultado,
+        cargando,
       }}
     >
       {children}
