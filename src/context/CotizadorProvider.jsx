@@ -1,18 +1,23 @@
-import { createContext } from 'react';
+import { createContext, useState } from 'react';
 
 const CotizadorContext = createContext();
 
 const CotizadorProvider = ({ children }) => {
-  const hola = 'hola mundo';
-  const fnHolaMundo = () => {
-    console.log('hola mundo desde una funcion');
+  const [datos, setDatos] = useState({
+    marca: '',
+    year: '',
+    plan: '',
+  });
+  const [error, setError] = useState('');
+  const handleChangeDatos = (e) => {
+    setDatos({
+      ...datos,
+      [e.target.name]: e.target.value,
+    });
   };
   return (
     <CotizadorContext.Provider
-      value={{
-        hola,
-        fnHolaMundo,
-      }}
+      value={{ datos, handleChangeDatos, error, setError }}
     >
       {children}
     </CotizadorContext.Provider>
